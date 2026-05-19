@@ -1,0 +1,29 @@
+# 我是AerMini. 我给你妈拜个早年 :)
+
+database:
+  address: 127.0.0.1
+  port: 3307
+  username: 
+  password: ""
+  database: 
+  table_prefix: aerdulj_
+
+Velocity: # 这个配置直接抄了TreysDoubleJump然后加了个keep和cooldown
+  keep: false # 允许连跳
+  forward: 1.7
+  up: 1.2
+  sprintingForward: 2.0
+  sprintingUp: 1.3
+  cooldown: 0
+  falltest: 1 # 脚下1格到玩家脚下不是空气的时候判定为落地
+
+Fire:
+  cooldown: 25000
+  # 烟花颜色. RANDOM->随机颜色 或者颜色名 比如 CYAN BLUE WHITE这种, 也可以直接hex 比如#FF0000
+  color: RANDOM
+  # 单个烟花飞行时间
+  flytime: 2000
+  # 整个烟花持续时间
+  keeptime: 12000
+  # 两个烟花的间隔时间
+  interval: 800

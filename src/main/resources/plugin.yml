@@ -1,0 +1,25 @@
+name: AerDoublejump
+version: ${project.version}
+main: com.aermini.doublejump.AerDoublejump
+author: AerMini
+
+commands:
+  fly:
+    usage: /<command>
+    permission: aerdoublejump.fly
+  fire:
+    usage: /<command>
+    permission: aerdoublejump.fire
+  aerdoublejump:
+    usage: /<command> reload
+    permission: aerdoublejump.admin
+
+permissions:
+  aerdoublejump.fly:
+    default: op
+  aerdoublejump.fire:
+    default: op
+  aerdoublejump.admin:
+    default: op
+  aerdoublejump.doublejump:
+    default: true
