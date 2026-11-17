@@ -28,7 +28,7 @@ public class DoubleJumpListener implements Listener {
         PlayerStateManager stateManager = plugin.getPlayerStateManager();
         ConfigManager configManager = plugin.getConfigManager();
         if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) {return;}
-        if (stateManager.isFlyEnabled(uuid)) {return;}
+        if (player.hasPermission("aerdoublejump.fly")) {return;}
         event.setCancelled(true);
         player.setAllowFlight(false);
         long lastJump = stateManager.getLastDoubleJumpTime(uuid);
@@ -59,7 +59,7 @@ public class DoubleJumpListener implements Listener {
         PlayerStateManager stateManager = plugin.getPlayerStateManager();
         ConfigManager configManager = plugin.getConfigManager();
         if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) {return;}
-        if (stateManager.isFlyEnabled(uuid)) {return;}
+        if (player.hasPermission("aerdoublejump.fly")) {return;}
         
         boolean onGround = isOnGround(player);
         if (onGround) {

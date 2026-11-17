@@ -1,7 +1,6 @@
 package com.aermini.doublejump;
 
 import com.aermini.doublejump.command.FireCommand;
-import com.aermini.doublejump.command.FlyCommand;
 import com.aermini.doublejump.command.MainCommand;
 import com.aermini.doublejump.database.DatabaseManager;
 import com.aermini.doublejump.listener.DoubleJumpListener;
@@ -35,7 +34,6 @@ public class AerDoublejump extends JavaPlugin {
         playerStateManager = new PlayerStateManager(this);
         getServer().getPluginManager().registerEvents(new DoubleJumpListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerConnectionListener(this), this);
-        getCommand("fly").setExecutor(new FlyCommand(this));
         getCommand("fire").setExecutor(new FireCommand(this));
         getCommand("aerdoublejump").setExecutor(new MainCommand(this));
         getLogger().info("AerDoublejump 已启用");

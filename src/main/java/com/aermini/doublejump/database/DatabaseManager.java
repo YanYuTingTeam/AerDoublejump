@@ -47,44 +47,12 @@ public class DatabaseManager {
         String tableName = plugin.getConfigManager().getTablePrefix() + "players";
         String sql = "CREATE TABLE IF NOT EXISTS " + tableName + " (" +
                 "uuid VARCHAR(36) PRIMARY KEY," +
-                "fly_enabled BOOLEAN DEFAULT FALSE," +
                 "last_firework BIGINT DEFAULT 0)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.executeUpdate();
         } catch (SQLException e) {
             plugin.getLogger().severe(e.getMessage());
-        }
-    }
-    
-    public boolean isFlyEnabled(UUID uuid) {
-        String tableName = plugin.getConfigManager().getTablePrefix() + "players";
-        String sql = "SELECT fly_enabled FROM " + tableName + " WHERE uuid = ?";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, uuid.toString());
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getBoolean("fly_enabled");
-            }
-        } catch (SQLException e) {
-            plugin.getLogger().warning(e.getMessage());
-        }
-        return false;
-    }
-    
-    public void setFlyEnabled(UUID uuid, boolean enabled) {
-        String tableName = plugin.getConfigManager().getTablePrefix() + "players";
-        String sql = "INSERT INTO " + tableName + " (uuid, fly_enabled) VALUES (?, ?) " +
-                "ON DUPLICATE KEY UPDATE fly_enabled = ?";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, uuid.toString());
-            statement.setBoolean(2, enabled);
-            statement.setBoolean(3, enabled);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            plugin.getLogger().warning(e.getMessage());
         }
     }
     

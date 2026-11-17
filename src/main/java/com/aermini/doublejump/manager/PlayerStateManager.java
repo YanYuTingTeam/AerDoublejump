@@ -1,6 +1,7 @@
 package com.aermini.doublejump.manager;
 
 import com.aermini.doublejump.AerDoublejump;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +10,6 @@ import java.util.UUID;
 public class PlayerStateManager {
     
     private final AerDoublejump plugin;
-    private final Map<UUID, Boolean> flyStates = new HashMap<>();
     private final Map<UUID, Boolean> hasDoubleJumped = new HashMap<>();
     private final Map<UUID, Long> lastDoubleJumpTime = new HashMap<>();
     private final Map<UUID, Long> lastFireworkTime = new HashMap<>();
@@ -20,10 +20,11 @@ public class PlayerStateManager {
     
     public void loadPlayer(Player player) {
         UUID uuid = player.getUniqueId();
-        boolean flyEnabled = plugin.getDatabaseManager().isFlyEnabled(uuid);
-        flyStates.put(uuid, flyEnabled);
-        player.setAllowFlight(flyEnabled);
-        if (flyEnabled) {
+        boolean canFly = player.hasPermission("aerdoublejump.fly");
+        if (player.getGameMode() != GameMode.CREATIVE && player.getGameMode() != GameMode.SPECTATOR) {
+            player.setAllowFlight(canFly);
+        }
+        if (canFly && player.getAllowFlight()) {
             player.setFlying(true);
         }
         
@@ -36,11 +37,6 @@ public class PlayerStateManager {
     public void savePlayer(Player player) {
         UUID uuid = player.getUniqueId();
         
-        Boolean flyState = flyStates.get(uuid);
-        if (flyState != null) {
-            plugin.getDatabaseManager().setFlyEnabled(uuid, flyState);
-        }
-        
         Long fireworkTime = lastFireworkTime.get(uuid);
         if (fireworkTime != null) {
             plugin.getDatabaseManager().setLastFireworkTime(uuid, fireworkTime);
@@ -51,15 +47,6 @@ public class PlayerStateManager {
         for (Player player : plugin.getServer().getOnlinePlayers()) {
             savePlayer(player);
         }
-    }
-    
-    public boolean isFlyEnabled(UUID uuid) {
-        return flyStates.getOrDefault(uuid, false);
-    }
-    
-    public void setFlyEnabled(UUID uuid, boolean enabled) {
-        flyStates.put(uuid, enabled);
-        plugin.getDatabaseManager().setFlyEnabled(uuid, enabled);
     }
     
     // 是否已二段跳. 在落地时重置
@@ -89,7 +76,6 @@ public class PlayerStateManager {
     }
     
     public void unloadPlayer(UUID uuid) {
-        flyStates.remove(uuid);
         hasDoubleJumped.remove(uuid);
         lastDoubleJumpTime.remove(uuid);
         lastFireworkTime.remove(uuid);

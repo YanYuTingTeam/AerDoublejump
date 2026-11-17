@@ -4,9 +4,6 @@ main: com.aermini.doublejump.AerDoublejump
 author: AerMini
 
 commands:
-  fly:
-    usage: /<command>
-    permission: aerdoublejump.fly
   fire:
     usage: /<command>
     permission: aerdoublejump.fire
